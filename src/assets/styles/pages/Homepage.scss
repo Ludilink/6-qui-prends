@@ -1,0 +1,25 @@
+.homepage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  .homepage-logo {
+    margin-bottom: 50px;
+    img {
+      width: 500px;
+    }
+  }
+
+  .homepage-link {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    a {
+      text-decoration: none;
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,18 @@
+@import 'src/assets/styles/pages/Homepage';
+@import 'src/assets/styles/components/home/Button';
+@import 'src/assets/styles/components/user/LoginRegisterModal';
+
+body, html, #root, .App {
+  height:100%;
+  width:100%;
+  margin:0;
+  position:absolute;
+}
+
+body {
+  background-image: url('/../public/images/background.png');
+}
+
+.no-underline {
+  text-decoration-line: none;
+}
