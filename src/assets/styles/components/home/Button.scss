@@ -1,31 +1,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Darumadrop+One&display=swap');
 
 .button-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 100%;
 
-  .button{
-    background-color: rgb(0, 128, 0);
-    border: 2px solid rgb(0, 101, 0);
-    border-radius: 25px;
-    width: 20%;
-    height: 40px;
-    padding: 0 20px;
-    margin: 10px;
-    font-family: Darumadrop One;
-    font-size: 20px;
-    color: rgb(255, 255, 255);
-    box-shadow: 0px 6px 0px rgb(1, 101, 1);
-    cursor: pointer;
-    text-align: center;
+  .button-container-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
 
-    &:active {
-      box-shadow: 0px 0px 0px rgb(1, 101, 1);
-      transform: translateY(6px);
-      transition: all 0.2s;
+    .button{
+      background-color: rgb(0, 128, 0);
+      border: 2px solid rgb(0, 101, 0);
+      border-radius: 25px;
+      width: 20%;
+      height: 40px;
+      padding: 0 20px;
+      margin: 10px;
+      font-family: Darumadrop One;
+      font-size: 20px;
+      color: rgb(255, 255, 255);
+      box-shadow: 0px 6px 0px rgb(1, 101, 1);
+      cursor: pointer;
+      text-align: center;
+
+      &:active {
+        box-shadow: 0px 0px 0px rgb(1, 101, 1);
+        transform: translateY(6px);
+        transition: all 0.2s;
+      }
     }
   }
 }
+
 

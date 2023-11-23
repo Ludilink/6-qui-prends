@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from "../components/homepage/Button";
+import Button from "../components/homepage/RedirectButton";
 
 const HomePage: React.FC = () => {
   return (

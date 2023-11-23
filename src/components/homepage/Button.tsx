@@ -1,20 +1,14 @@
 import React from "react";
-import { Link } from 'react-router-dom';
 
 interface Props {
   text: string
-  path: string
 }
 
-const Button: React.FC<Props> = ({ text, path }) => {
+const Button: React.FC<Props> = ({ text }) => {
   return (
-    <Link to={path}>
-      <div className="button-container">
-        <div className="button">
-          { text }
-        </div>
-      </div>
-    </Link>
+    <div className="button-container-inner">
+      <button>{text}</button>
+    </div>
   );
 };
 
