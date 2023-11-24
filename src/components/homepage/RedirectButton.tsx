@@ -10,8 +10,10 @@ const RedirectButton: React.FC<Props> = ({ text, path }) => {
   return (
     <Link to={path}>
       <div className="button-container">
-        <div className="button">
-          { text }
+        <div className="button-container-inner">
+          <div className="button">
+            { text }
+          </div>
         </div>
       </div>
     </Link>

@@ -6,6 +6,7 @@ import {UserContext} from "../contexts/UserProvider";
 import {RoomOptions} from "../types/RoomOptions";
 import redis from "../config/redis";
 import {useNavigate} from "react-router-dom";
+import useUser from "../hooks/useUser";
 
 const CreateRoom: React.FC = () => {
   const [{ user }] = useContext(UserContext);
@@ -13,11 +14,14 @@ const CreateRoom: React.FC = () => {
   const [room, setRoom] = useState<string>('');
   const [pseudo, setPseudo] = useState<string>('');
   const navigate = useNavigate();
+  const { logIn } = useUser();
 
   const createRoom = async () => {
+    let user = await logIn(pseudo);
     const obj: RoomOptions = {
       maxPlayers: 8,
       host: {
+        userId: user.id,
         username: pseudo,
         socketId: null
       }
@@ -31,10 +35,7 @@ const CreateRoom: React.FC = () => {
   }
 
   const joinRoomClick = async (): Promise<void> => {
-    if (user === undefined) {
-      setError('Vous devez être connecté pour rejoindre une partie');
-      return;
-    }
+    await logIn(pseudo);
     navigate(`/room/${room}`);
   };
 

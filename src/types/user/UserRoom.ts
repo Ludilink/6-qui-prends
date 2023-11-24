@@ -3,4 +3,6 @@ export interface UserRoom {
   username: string
   socketId: string | null
   isHost: boolean
+  hasToPlay: boolean
+  bullLost: number
 }

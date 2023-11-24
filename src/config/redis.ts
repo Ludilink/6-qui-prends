@@ -1,6 +1,5 @@
 import { post } from 'config/requests';
 import { type RoomOptions } from 'types/RoomOptions';
-import { type User } from 'types/user/User';
 import { type Room201 } from '../types/api/Room201';
 import { type Response400 } from '../types/api/Response400';
 

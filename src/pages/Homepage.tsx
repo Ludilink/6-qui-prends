@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from "../components/homepage/RedirectButton";
+import RedirectButton from "../components/homepage/RedirectButton";
 
 const HomePage: React.FC = () => {
   return (
@@ -9,7 +9,7 @@ const HomePage: React.FC = () => {
           <img src="/images/6QP-logo.png" alt="Logo" />
         </div>
         <div className="homepage-link">
-          <Button text="Jouer" path="/room/create" />
+          <RedirectButton text="Jouer" path="/room/create" />
         </div>
       </div>
     </div>

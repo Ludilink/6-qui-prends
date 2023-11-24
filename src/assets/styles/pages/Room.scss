@@ -1,0 +1,119 @@
+@import "src/assets/styles/components/message/Messages.scss";
+@import url('https://fonts.googleapis.com/css2?family=Darumadrop+One&display=swap');
+
+.chat-box {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  padding: 10px 20px;
+  border: 1px solid #E29A16;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  bottom: 60px;
+  right: 25px;
+  margin-bottom: 20px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.toggle-chat-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-color: rgb(255, 209, 27);
+	border: 2px solid rgb(222, 152, 0);
+  border-radius: 25px;
+  width: 10%;
+  height: 40px;
+  padding: 0 20px;
+  margin: 10px;
+  font-family: Darumadrop One;
+  font-size: 20px;
+  color: rgb(255, 255, 255);
+  box-shadow: 0px 6px 0px rgb(222, 152, 0);
+  cursor: pointer;
+
+  &:active, &.open {
+    box-shadow: 0px 0px 0px rgb(222, 152, 0);
+    transform: translateY(6px);
+    transition: all 0.2s;
+  }
+}
+
+.player-deck {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.player-bet {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.player-to-play {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  p {
+    font-size: 20px;
+    font-family: Darumadrop One;
+    color: rgb(255, 209, 27);
+  }
+}
+
+.start-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 450px;
+  background-color: #FBF5EF;
+  border-radius: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: center;
+  padding-bottom: 20px;
+
+  p {
+    font-size: 20px;
+    font-family: Darumadrop One;
+    color: rgb(58, 31, 2);
+  }
+
+  button {
+    background-color: rgb(0, 128, 0);
+    border: 2px solid rgb(0, 101, 0);
+    border-radius: 25px;
+    width: 80%;
+    height: 40px;
+    padding: 0 20px;
+    margin: 10px;
+    font-family: Darumadrop One;
+    font-size: 20px;
+    color: rgb(255, 255, 255);
+    box-shadow: 0px 6px 0px rgb(1, 101, 1);
+    
+    &:active {
+      box-shadow: 0px 0px 0px rgb(1, 101, 1);
+      transform: translateY(6px);
+      transition: all 0.2s;
+    }
+
+    &.disabled {
+      background-color: rgb(128, 128, 128);
+      border: 2px solid rgb(101, 101, 101);
+      box-shadow: 0px 6px 0px rgb(101, 101, 101);
+      pointer-events: none;
+    }
+  }
+}

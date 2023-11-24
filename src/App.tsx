@@ -10,7 +10,7 @@ const App: React.FC = () => {
     if (state.user !== undefined) {
       console.log('user is logged : ', state.user);
     }
-  }, []);
+  }, [state.user]);
 
   return (
     <div className="App">
