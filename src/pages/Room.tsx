@@ -4,6 +4,10 @@ import useSocket from "../hooks/useSocket";
 import {UserRoom} from "../types/user/UserRoom";
 import {Card} from "../types/cards/Card";
 import UsersInRoom from "../components/room/UsersInRoom";
+import MessagesList from "../components/messages/MessagesList";
+import {Board} from "../types/game/Board";
+import {Deck} from "../components/deck/Deck";
+import {CardItem} from "../components/deck/CardItem";
 const Room: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -13,6 +17,7 @@ const Room: React.FC = () => {
   const [myUser, setMyUser] = useState<UserRoom | undefined>(undefined);
   const [cards, setCards] = useState<Card[]>([]);
   const [currentRound, setCurrentRound] = useState<number>(1);
+  const [board, setBoard] = useState<Board | undefined>(undefined);
 
   const startGame = () => {
     socket?.emitWithAck('startGame', id).then((response: any): void => {
@@ -56,6 +61,11 @@ const Room: React.FC = () => {
       setCards(newCards);
     });
 
+    socket?.on('board', (newBoard: Board) => {
+      console.log('[Room] board updated ! : ', newBoard);
+      setBoard(newBoard);
+    });
+
     socket?.on('disconnect', () => {
       socket?.emit('leaveRoom', id);
       socket?.disconnect();
@@ -81,17 +91,46 @@ const Room: React.FC = () => {
 
   if (!gameIsStarted) {
     return (
+    <>
       <UsersInRoom members={members} number={members.length} gameIsStarted={gameIsStarted}/>
+
+      {myUser?.isHost && (
+        <div className='start-modal'>
+          {members.length < 2 && (
+            <div>
+              <p>En attente de joueurs ...</p>
+              <p>Il faut être au moins 2 joueurs pour lancer la partie !</p>
+            </div>
+          )}
+          <button className={members.length < 2 ? 'disabled' : ''} onClick={startGame}>Lancer la partie</button>
+        </div>
+      )}
+      {!myUser?.isHost && (
+        <div className='start-modal'>
+          <p>En attente de lancement de la partie ...</p>
+        </div>
+      )}
+
+      <MessagesList/>
+    </>
     );
   } else {
+    return (
+      <>
+        <UsersInRoom members={members} number={members.length} gameIsStarted={gameIsStarted}/>
 
+        {myUser?.hasToPlay && (
+          <div className='player-to-play'>
+            <p>Choisis ta carte</p>
+          </div>
+        )}
+
+        <Deck cards={cards} />
+
+        <MessagesList/>
+      </>
+    );
   }
-
-  return (
-    <div>
-      <p>Coucou</p>
-    </div>
-  );
 };
 
 export default Room;
