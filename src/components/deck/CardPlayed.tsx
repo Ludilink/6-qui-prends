@@ -2,32 +2,14 @@ import React from 'react';
 import { type Card } from 'types/cards/Card';
 
 export interface CardProps {
-  isActive?: boolean
-  onClick?: () => void
-  isPlayable: boolean
   card: Card
 }
 
-export const CardItem: React.FC<CardProps> = ({ card, isPlayable, isActive, onClick }) => {
-  const layout = (content: React.JSX.Element): React.JSX.Element => {
-    if (isPlayable) {
-      return (
-        <div className={'card-item' + (isActive ? ' active' : '')} onClick={onClick}>
-          {content}
-        </div>
-      );
-    }
-    return (
-      <div className='card-item'>
-        {content}
-      </div>
-    );
-  };
-
+export const CardPlayed: React.FC<CardProps> = ({ card}) => {
   return (
     <>
-      {layout(
-        <div className="card in-deck">
+      <div className='card-item'>
+        <div className="card">
           <div className="card-bulls">
             <p>{card.bullPoints}</p>
             <div className="card-bull">
@@ -38,7 +20,9 @@ export const CardItem: React.FC<CardProps> = ({ card, isPlayable, isActive, onCl
             {card.value}
           </div>
         </div>
-      )}
+      </div>
     </>
   );
 };
+
+export default CardPlayed;

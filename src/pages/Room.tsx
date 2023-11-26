@@ -8,6 +8,7 @@ import MessagesList from "../components/messages/MessagesList";
 import {Board} from "../types/game/Board";
 import {Deck} from "../components/deck/Deck";
 import {CardItem} from "../components/deck/CardItem";
+import BoardCards from "../components/board/Board";
 const Room: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -124,6 +125,8 @@ const Room: React.FC = () => {
             <p>Choisis ta carte</p>
           </div>
         )}
+
+        <BoardCards board={board} />
 
         <Deck cards={cards} />
 
