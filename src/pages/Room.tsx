@@ -19,6 +19,7 @@ const Room: React.FC = () => {
   const [cards, setCards] = useState<Card[]>([]);
   const [currentRound, setCurrentRound] = useState<number>(1);
   const [board, setBoard] = useState<Board | undefined>(undefined);
+  const [playerHasToPlay, setPlayerHasToPlay] = useState<UserRoom | undefined>(undefined);
 
   const startGame = () => {
     socket?.emitWithAck('startGame', id).then((response: any): void => {
@@ -72,6 +73,11 @@ const Room: React.FC = () => {
       socket?.disconnect();
     });
 
+    socket?.on('playerHasToPlay', (user: UserRoom) => {
+      console.log('[Room] playerHasToPlay updated ! : ', playerHasToPlay);
+      setPlayerHasToPlay(user);
+    });
+
     return () => {
       socket?.off('connect');
       socket?.off('members');
@@ -79,6 +85,7 @@ const Room: React.FC = () => {
       socket?.off('cards');
       socket?.off('cardPlayed');
       socket?.off('disconnect');
+      socket?.off('playerHasToPlay');
     };
   }, []);
 
@@ -123,6 +130,12 @@ const Room: React.FC = () => {
         {myUser?.hasToPlay && (
           <div className='player-to-play'>
             <p>Choisis ta carte</p>
+          </div>
+        )}
+
+        {playerHasToPlay?.userId == myUser?.userId && (
+          <div className='player-to-play'>
+            <p>Tu dois choisir le slot a remplacer</p>
           </div>
         )}
 

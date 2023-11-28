@@ -23,6 +23,7 @@
       justify-content: center;
       align-items: center;
       position: relative;
+      z-index:20;
 
       .card-item:not(:first-child) {
         margin-top: -130px;
