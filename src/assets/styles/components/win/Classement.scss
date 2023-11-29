@@ -1,0 +1,105 @@
+.win-modal {
+  width: 400px;
+  height: 550px;
+  z-index: 100;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: #FBF5EF;
+  border-radius: 10px;
+
+  .win-title {
+    font-family: Darumadrop One;
+    font-size: 30px;
+    color: rgb(0, 0, 0);
+    transition: all .2s ease-in-out;
+    text-align: center;
+  }
+  .win-podium {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    height: 330px;
+    margin-bottom: 15px;
+    position: relative;
+
+    .win-podium-item {
+      display: flex;
+      width: 135px;
+      height: 100%;
+      position: relative;
+      transition: all 0.2s ease-in-out;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      justify-content: flex-end;
+
+      .win-podium-name {
+        font-family: Darumadrop One;
+        font-size: 20px;
+        color: rgb(0, 0, 0);
+        margin-top: 10px;
+        transition: all .2s ease-in-out;
+        height: 30px;
+        text-align: center;
+      }
+
+      .win-podium-points {
+        font-family: Darumadrop One;
+        font-size: 16px;
+        color: rgb(0, 0, 0);
+        transition: all .2s ease-in-out;
+        height: 30px;
+        text-align: center;
+      }
+
+      .win-podium-block {
+        font-family: 'Darumadrop One';
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        border: 2px solid black;
+        border-radius: 0.6rem;
+      }
+
+      &.second .win-podium-block {
+        background-color: silver;
+        height: 180px;
+
+        .number {
+          font-size: 35px;
+        }
+      }
+
+      &.first .win-podium-block {
+        background-color: gold;
+        height:250px;
+
+        .number {
+          font-size: 40px;
+        }
+      }
+
+      &.third .win-podium-block {
+        background-color: #cd7f32;
+        height: 120px;
+
+        .number {
+          font-size: 30px;
+        }
+      }
+    }
+  }
+
+  .win-item {
+    font-family: 'Darumadrop One';
+    font-size: 20px;
+    color: rgb(0, 0, 0);
+    transition: all .2s ease-in-out;
+    text-align: left;
+    padding-left: 25px;
+  }
+}

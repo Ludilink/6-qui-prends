@@ -9,6 +9,7 @@ import {Board} from "../types/game/Board";
 import {Deck} from "../components/deck/Deck";
 import {CardItem} from "../components/deck/CardItem";
 import BoardCards from "../components/board/Board";
+import Classement from "../components/win/Classement";
 const Room: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -133,7 +134,7 @@ const Room: React.FC = () => {
           </div>
         )}
 
-        {playerHasToPlay?.userId == myUser?.userId && (
+        {playerHasToPlay?.userId === myUser?.userId && (
           <div className='player-to-play'>
             <p>Tu dois choisir le slot a remplacer</p>
           </div>
