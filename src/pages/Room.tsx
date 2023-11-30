@@ -11,6 +11,7 @@ import BoardCards from "../components/board/Board";
 import {GameStatus} from "../types/game/GameStatus";
 import Classement from "../components/win/Classement";
 import {ClimbingBoxLoader} from "react-spinners";
+import ErrorPage from "../components/global/ErrorPage";
 
 const Room: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -48,7 +49,7 @@ const Room: React.FC = () => {
           setErrorMessage(response.error);
           setTimeout(() => {
             navigate('/room/create');
-          }, 5000);
+          }, 3000);
         } else {
           setGameStatus(response.gameStatus);
         }
@@ -107,20 +108,7 @@ const Room: React.FC = () => {
 
   if (socket === undefined || !socket.connected || errorMessage !== '') {
     return (
-      <div className="loader">
-        <ClimbingBoxLoader
-          color="#ffffff"
-          size={30}
-        />
-        <div className="loader-error">
-          {errorMessage !== '' && (
-            <p>{errorMessage}</p>
-          )}
-          {errorMessage === '' && (
-            <p>Chargement en cours ...</p>
-          )}
-        </div>
-      </div>
+      <ErrorPage message={errorMessage} />
     );
   }
 

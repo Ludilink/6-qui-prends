@@ -4,6 +4,7 @@ import HomePage from 'pages/Homepage';
 import RoomLayout from 'components/layout/RoomLayout';
 import CreateRoom from 'pages/CreateRoom';
 import SocketLayout from 'components/layout/SocketLayout';
+import RedirectToCreate from "components/room/RedirectToCreate";
 
 export const Router = createBrowserRouter([
   {
@@ -18,7 +19,7 @@ export const Router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <div>Room</div>
+        element: <RedirectToCreate />
       },
       {
         path: ':id',
