@@ -11,7 +11,6 @@ const SocketLayout = () => {
     if (id === undefined) {
       navigate('/');
     }
-    console.log("ici")
   }, [id, navigate]);
 
   return (

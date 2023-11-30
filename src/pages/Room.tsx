@@ -10,7 +10,6 @@ import {Deck} from "../components/deck/Deck";
 import BoardCards from "../components/board/Board";
 import {GameStatus} from "../types/game/GameStatus";
 import Classement from "../components/win/Classement";
-import {ClimbingBoxLoader} from "react-spinners";
 import ErrorPage from "../components/global/ErrorPage";
 
 const Room: React.FC = () => {
@@ -31,6 +30,9 @@ const Room: React.FC = () => {
       if (response.hasOwnProperty('error')) {
         console.log('error from startGame : ', response.error);
         setErrorMessage(response.error);
+        setTimeout(() => {
+          navigate('/room/create');
+        }, 3000);
       }
     }).catch((err) => {
       console.error(err);

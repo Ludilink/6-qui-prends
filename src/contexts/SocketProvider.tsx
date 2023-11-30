@@ -20,6 +20,13 @@ const initializeState = (prop: props): SocketState => {
     };
     console.log('[SocketProvider] initializeState : ', state);
     return state;
+  } else if (prop.slug !== undefined) {
+    const state: SocketState = {
+      socket: io(process.env.REACT_APP_WS_URL as string, { query: { slug: prop.slug } }),
+      loading: false
+    };
+    console.log('[SocketProvider] initializeState : ', state);
+    return state;
   }
   return initialSocketState;
 };
