@@ -17,7 +17,7 @@ const Classement: React.FC<Props> = ({ members }) => {
             {members[0].username}
           </div>
           <div className="win-podium-points">
-            {members[0].bullLost} pts
+            {members[0].bullsLost} pts
           </div>
           <div className="win-podium-block">
             <div className="number">
@@ -30,7 +30,7 @@ const Classement: React.FC<Props> = ({ members }) => {
             {members[1].username}
           </div>
           <div className="win-podium-points">
-            {members[1].bullLost} pts
+            {members[1].bullsLost} pts
           </div>
           <div className="win-podium-block">
             <div className="number">
@@ -44,7 +44,7 @@ const Classement: React.FC<Props> = ({ members }) => {
             {members[2].username}
           </div>
           <div className="win-podium-points">
-            {members[2].bullLost} pts
+            {members[2].bullsLost} pts
           </div>
           <div className="win-podium-block">
             <div className="number">
@@ -57,7 +57,7 @@ const Classement: React.FC<Props> = ({ members }) => {
       {members.length >= 4 && (
         members.slice(3).map((member, index) => (
           <div className="win-item" key={index}>
-            {index + 4} - {member.username} : {member.bullLost} pts
+            {index + 4} - {member.username} : {member.bullsLost} pts
           </div>
         ))
       )}

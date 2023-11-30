@@ -23,3 +23,26 @@ body {
 .no-underline {
   text-decoration-line: none;
 }
+
+* {
+  cursor:url('/../public/images/hand.png'),auto;
+}
+
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  p {
+    font-family: 'Darumadrop One', sans-serif;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+  }
+}

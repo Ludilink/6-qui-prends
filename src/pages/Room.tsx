@@ -7,25 +7,29 @@ import UsersInRoom from "../components/room/UsersInRoom";
 import MessagesList from "../components/messages/MessagesList";
 import {Board} from "../types/game/Board";
 import {Deck} from "../components/deck/Deck";
-import {CardItem} from "../components/deck/CardItem";
 import BoardCards from "../components/board/Board";
+import {GameStatus} from "../types/game/GameStatus";
 import Classement from "../components/win/Classement";
+import {ClimbingBoxLoader} from "react-spinners";
+
 const Room: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const socket = useSocket();
   const [members, setMembers] = useState<UserRoom[]>([]);
-  const [gameIsStarted, setGameIsStarted] = useState<boolean>(false);
+  const [gameStatus, setGameStatus] = useState<GameStatus>(GameStatus.UNSTARTED);
   const [myUser, setMyUser] = useState<UserRoom | undefined>(undefined);
   const [cards, setCards] = useState<Card[]>([]);
-  const [currentRound, setCurrentRound] = useState<number>(1);
   const [board, setBoard] = useState<Board | undefined>(undefined);
   const [playerHasToPlay, setPlayerHasToPlay] = useState<UserRoom | undefined>(undefined);
+  const [winners, setWinners] = useState<UserRoom[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const startGame = () => {
     socket?.emitWithAck('startGame', id).then((response: any): void => {
       if (response.hasOwnProperty('error')) {
         console.log('error from startGame : ', response.error);
+        setErrorMessage(response.error);
       }
     }).catch((err) => {
       console.error(err);
@@ -41,8 +45,12 @@ const Room: React.FC = () => {
       socket?.emitWithAck('joinRoom', id).then((response: any) => {
         if (response.hasOwnProperty('error')) {
           console.log('error from joinRoom : ', response.error);
+          setErrorMessage(response.error);
+          setTimeout(() => {
+            navigate('/room/create');
+          }, 5000);
         } else {
-          setGameIsStarted(response.gameIsStarted);
+          setGameStatus(response.gameStatus);
         }
       }).catch((err) => {
         console.error(err);
@@ -56,7 +64,7 @@ const Room: React.FC = () => {
     });
 
     socket?.on('gameStarted', (value: boolean) => {
-      setGameIsStarted(value);
+      setGameStatus(GameStatus.STARTED);
     });
 
     socket?.on('cards', (newCards: Card[]) => {
@@ -79,6 +87,12 @@ const Room: React.FC = () => {
       setPlayerHasToPlay(user);
     });
 
+    socket?.on('winners', (winners: UserRoom[]) => {
+      console.log('[Room] winners updated ! : ', winners);
+      setWinners(winners);
+      setGameStatus(GameStatus.END_GAME);
+    });
+
     return () => {
       socket?.off('connect');
       socket?.off('members');
@@ -87,21 +101,33 @@ const Room: React.FC = () => {
       socket?.off('cardPlayed');
       socket?.off('disconnect');
       socket?.off('playerHasToPlay');
+      socket?.off('winners');
     };
-  }, []);
+  }, [id, navigate, playerHasToPlay, socket]);
 
-  if (socket === undefined || !socket.connected) {
+  if (socket === undefined || !socket.connected || errorMessage !== '') {
     return (
-      <div>
-        <p>Connexion en cours...</p>
+      <div className="loader">
+        <ClimbingBoxLoader
+          color="#ffffff"
+          size={30}
+        />
+        <div className="loader-error">
+          {errorMessage !== '' && (
+            <p>{errorMessage}</p>
+          )}
+          {errorMessage === '' && (
+            <p>Chargement en cours ...</p>
+          )}
+        </div>
       </div>
     );
   }
 
-  if (!gameIsStarted) {
+  if (gameStatus === GameStatus.UNSTARTED) {
     return (
     <>
-      <UsersInRoom members={members} number={members.length} gameIsStarted={gameIsStarted}/>
+      <UsersInRoom members={members} number={members.length} gameStatus={gameStatus}/>
 
       {myUser?.isHost && (
         <div className='start-modal'>
@@ -126,7 +152,7 @@ const Room: React.FC = () => {
   } else {
     return (
       <>
-        <UsersInRoom members={members} number={members.length} gameIsStarted={gameIsStarted}/>
+        <UsersInRoom members={members} number={members.length} gameStatus={gameStatus}/>
 
         {myUser?.hasToPlay && (
           <div className='player-to-play'>
@@ -138,6 +164,10 @@ const Room: React.FC = () => {
           <div className='player-to-play'>
             <p>Tu dois choisir le slot a remplacer</p>
           </div>
+        )}
+
+        {gameStatus === GameStatus.END_GAME && (
+          <Classement members={winners} />
         )}
 
         <BoardCards board={board} />

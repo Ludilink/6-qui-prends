@@ -19,7 +19,7 @@ export const Deck: React.FC<Props> = ({ cards }) => {
     return () => {
       socket?.off('cards');
     };
-  }, []);
+  }, [socket]);
 
   const updateActiveCard = (index: number) => {
     if (index === activeIndex) {

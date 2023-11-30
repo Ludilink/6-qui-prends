@@ -1,15 +1,14 @@
 
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import InputText from "../components/global/InputText";
 import Button from "../components/homepage/Button";
-import {UserContext} from "../contexts/UserProvider";
 import {RoomOptions} from "../types/RoomOptions";
 import redis from "../config/redis";
 import {useNavigate} from "react-router-dom";
 import useUser from "../hooks/useUser";
+import JoinButton from "../components/homepage/JoinButton";
 
 const CreateRoom: React.FC = () => {
-  const [{ user }] = useContext(UserContext);
   const [error, setError] = useState<string>('');
   const [room, setRoom] = useState<string>('');
   const [pseudo, setPseudo] = useState<string>('');
@@ -45,18 +44,22 @@ const CreateRoom: React.FC = () => {
       <InputText placeholder="Pseudo" label="Entrez votre Pseudo" onChange={(event) => { setPseudo(event.target.value)}} value={pseudo}/>
       <div className="button-container" onClick={() => {
         void (async () => {
-          await createRoom();
+          if (pseudo.trim().length !== 0) {
+            await createRoom();
+          }
         })();
       }}>
-        <Button text="Creez une partie"/>
+        <Button text="Creez une partie" username={pseudo}/>
       </div>
       <InputText placeholder="xxx-xxx-xxx" label="Nom du salon" onChange={(event) => { setRoom(event.target.value)}} value={room}/>
       <div className="button-container" onClick={() => {
         void (async () => {
-          await joinRoomClick();
+          if (pseudo.trim().length !== 0 && room.trim().length !== 0 && /[a-zA-Z]+-[a-zA-Z]+-[a-zA-Z]+/.test(room)) {
+            await joinRoomClick();
+          }
         })();
       }}>
-        <Button text="Rejoindre une partie"/>
+        <JoinButton text="Rejoindre une partie" username={pseudo} room={room}/>
       </div>
     </div>
   );

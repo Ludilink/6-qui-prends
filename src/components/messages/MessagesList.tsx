@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import { type Message, type MessageReceived } from 'types/inputs/Message';
 import { MessageInput } from 'components/messages/MessageInput';
 import { Messages } from 'components/messages/Messages';
@@ -17,14 +17,14 @@ const MessagesList = (): React.JSX.Element => {
     });
   };
 
-  const messageListener = (message: Message, user: UserRoom): void => {
+  const messageListener = useCallback((message: Message, user: UserRoom): void => {
     console.log('message reçu ! ', message, user);
     const msg: MessageReceived = { message, user };
     console.log(`append message ${msg.message.text} to messages: `, messages);
     console.log('new value must be : ', [...messages, msg]);
     setMessages([...messages, msg]);
     console.log('messages after append: ', messages);
-  };
+  }, [messages]);
 
   useEffect(() => {
     // TODO : si les messages sont vides, fetch les messages de la room (TO IMPLEMENT API)
@@ -33,7 +33,7 @@ const MessagesList = (): React.JSX.Element => {
     return () => {
       socket?.off('chat');
     };
-  }, [messageListener]);
+  }, [messageListener, socket]);
 
   const chatOpen = () => {
     setIsChatOpen(!isChatOpen);
