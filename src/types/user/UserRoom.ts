@@ -5,4 +5,5 @@ export interface UserRoom {
   isHost: boolean
   hasToPlay: boolean
   bullsLost: number
+  status: 'Online' | 'Offline'
 }

@@ -11,10 +11,12 @@ import BoardCards from "../components/board/Board";
 import {GameStatus} from "../types/game/GameStatus";
 import Classement from "../components/win/Classement";
 import ErrorPage from "../components/global/ErrorPage";
+import useUser from "../hooks/useUser";
 
 const Room: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { logOut } = useUser();
   const socket = useSocket();
   const [members, setMembers] = useState<UserRoom[]>([]);
   const [gameStatus, setGameStatus] = useState<GameStatus>(GameStatus.UNSTARTED);
@@ -38,6 +40,23 @@ const Room: React.FC = () => {
       console.error(err);
     });
   };
+
+  const leaveRoom = () => {
+    socket?.emitWithAck('quitRoom').then((response: any): void => {
+      if (response.hasOwnProperty('error')) {
+        console.log('error from leaveRoom : ', response.error);
+        setErrorMessage(response.error);
+        setTimeout(() => {
+          navigate('/room/create');
+        }, 3000);
+        return;
+      }
+      logOut();
+      navigate('/room/create');
+    }).catch((err) => {
+      console.error(err);
+    });
+  }
 
   useEffect(() => {
     if (id === undefined) {
@@ -119,22 +138,28 @@ const Room: React.FC = () => {
     <>
       <UsersInRoom members={members} number={members.length} gameStatus={gameStatus}/>
 
-      {myUser?.isHost && (
-        <div className='start-modal'>
-          {members.length < 2 && (
+      <div className='start-modal'>
+        {myUser?.isHost ? (
+          members.length < 2 ? (
             <div>
               <p>En attente de joueurs ...</p>
               <p>Il faut être au moins 2 joueurs pour lancer la partie !</p>
+              <button onClick={leaveRoom}>Quitter la partie</button>
+              <button className={members.length < 2 ? 'disabled' : ''} onClick={startGame}>Lancer la partie</button>
             </div>
-          )}
-          <button className={members.length < 2 ? 'disabled' : ''} onClick={startGame}>Lancer la partie</button>
-        </div>
-      )}
-      {!myUser?.isHost && (
-        <div className='start-modal'>
-          <p>En attente de lancement de la partie ...</p>
-        </div>
-      )}
+          ) : (
+            <div>
+              <p>En attente de lancement de la partie ...</p>
+              <button onClick={leaveRoom}>Quitter la partie</button>
+            </div>
+          )
+        ) : (
+          <div>
+            <p>En attente de lancement de la partie ...</p>
+            <button onClick={leaveRoom}>Quitter la partie</button>
+          </div>
+        )}
+      </div>
 
       <MessagesList/>
     </>

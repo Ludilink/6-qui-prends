@@ -15,8 +15,8 @@ const UsersInRoom: React.FC<Props> = ({ members, number, gameStatus }) => {
         <div className='counter'>{number}</div>
       </div>
       <ul>
-        {gameStatus !== GameStatus.UNSTARTED && members.length > 0 && members.map((member, index) => (
-          <li className={'' + (member.hasToPlay ? 'active' : '')} key={index}>
+        {members.length === 0 && gameStatus !== GameStatus.UNSTARTED ? members.map((member, index) => (
+          <li className={'' + (member.hasToPlay ? 'active' : '') + (member.status === 'Online' ? '' : 'offline')} key={index}>
             <div className='user-name'>
               {member.username}
             </div>
@@ -24,13 +24,11 @@ const UsersInRoom: React.FC<Props> = ({ members, number, gameStatus }) => {
               {member.bullsLost} pts
             </div>
           </li>
-        )) }
-        {gameStatus === GameStatus.UNSTARTED && members.length > 0 && members.map((member, index) => (
-          <li key={index}>
+        )) : members.map((member, index) => (
+          <li className={member.status === 'Online' ? '' : 'offline'} key={index}>
             {member.username}
           </li>
-        ))
-        }
+          ))}
       </ul>
     </div>
   );

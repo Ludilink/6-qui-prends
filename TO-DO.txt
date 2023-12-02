@@ -1,0 +1,7 @@
+mettre check mark quand ils ont joué
+pouvoir rejoindre une room sans passer par le /create
+drag & drop des cartes
+mettre une couronne sur l'host dans le lobby
+afficher la carte jouée
+afficher une carte face cachée ?
+afficher les autres joeurs avec des petits ronds aulieu d'une bande
