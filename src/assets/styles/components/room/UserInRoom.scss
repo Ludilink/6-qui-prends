@@ -92,7 +92,7 @@
         background-color: rgb(128, 125, 123);
       }
 
-      img {
+      .checkmark-img {
         position: absolute;
         bottom: 5px;
         right: 5px;
@@ -100,7 +100,19 @@
         transition: opacity 0.3s ease;
       }
 
-      &.checkmark img {
+      &.checkmark .checkmark-img {
+        opacity: 1;
+      }
+
+      .crown-img {
+        position: absolute;
+        top: 5px;
+        right: 50%;
+        transform: translateX(50%);
+        opacity: 0;
+      }
+
+      &.crown .crown-img {
         opacity: 1;
       }
     }

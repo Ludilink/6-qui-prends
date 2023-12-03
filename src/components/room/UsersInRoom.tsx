@@ -18,14 +18,15 @@ const UsersInRoom: React.FC<Props> = ({ members, number, gameStatus }) => {
       </div>
       <ul>
         {members.length !== 0 && gameStatus !== GameStatus.UNSTARTED ? members.map((member, index) => (
-          <li className={'' + (member.hasToPlay ? '' : 'checkmark ') + (member.status === 'Online' ? '' : 'offline')} key={index}>
+          <li className={'' + (member.isHost ? 'crown ' : '')+ (member.hasToPlay ? '' : 'checkmark ') + (member.status === 'Online' ? '' : 'offline')} key={index}>
+            <img className="crown-img" src="/images/crown.png" alt="Checkmark" />
             <div className='user-name'>
               {member.username}
             </div>
             <div className='user-points'>
               {member.bullsLost} pts
             </div>
-            <img src="/images/check.png" alt="Checkmark" />
+            <img className="checkmark-img" src="/images/check-mark.png" alt="Checkmark" />
           </li>
         )) : members.map((member, index) => (
           <li className={member.status === 'Online' ? '' : 'offline'} key={index}>
