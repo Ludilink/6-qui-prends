@@ -1,14 +1,45 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import { type Card } from 'types/cards/Card';
+import {useDrag, useDrop} from "react-dnd";
 
 export interface CardProps {
   isActive?: boolean
   onClick?: () => void
   isPlayable: boolean
-  card: Card
+  card: Card,
+  index: number,
+  onDragEnd: (dragIndex: number, hoverIndex: number) => void
 }
 
-export const CardItem: React.FC<CardProps> = ({ card, isPlayable, isActive, onClick }) => {
+export const CardItem: React.FC<CardProps> = ({ card, isPlayable, isActive, onClick, index, onDragEnd }) => {
+  // const ref = useRef(null);
+
+  const [{ isDragging }, drag] = useDrag({
+    type: 'CARD',
+    item: { type: 'CARD', card },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+
+  // const [, drop] = useDrop({
+  //   accept: 'CARD',
+  //   hover: (item: any) => {
+  //     if (!ref.current) {
+  //       return;
+  //     }
+  //     const dragIndex = item.index;
+  //     const hoverIndex = index;
+  //     if (dragIndex === hoverIndex) {
+  //       return;
+  //     }
+  //     onDragEnd(dragIndex, hoverIndex);
+  //     item.index = hoverIndex;
+  //   },
+  // });
+
+  // drag(drop(ref));
+
   const layout = (content: React.JSX.Element): React.JSX.Element => {
     if (isPlayable) {
       return (
@@ -25,7 +56,13 @@ export const CardItem: React.FC<CardProps> = ({ card, isPlayable, isActive, onCl
   };
 
   return (
-    <>
+    <div
+      ref={drag}
+      style={{
+        opacity: isDragging ? 0.5 : 1,
+        cursor: 'move',
+        // Add any other styles you need for your card
+      }}>
       {layout(
         <div className="card in-deck">
           <div className="card-bulls">
@@ -39,6 +76,6 @@ export const CardItem: React.FC<CardProps> = ({ card, isPlayable, isActive, onCl
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };

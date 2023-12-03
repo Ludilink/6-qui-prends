@@ -151,6 +151,7 @@ const Room: React.FC = () => {
             <div>
               <p>En attente de lancement de la partie ...</p>
               <button onClick={leaveRoom}>Quitter la partie</button>
+              <button className={members.length < 2 ? 'disabled' : ''} onClick={startGame}>Lancer la partie</button>
             </div>
           )
         ) : (
@@ -187,7 +188,7 @@ const Room: React.FC = () => {
 
         <BoardCards board={board} />
 
-        <Deck cards={cards} />
+        <Deck cards={cards} setCards={setCards} />
 
         <MessagesList/>
       </>

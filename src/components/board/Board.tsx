@@ -2,6 +2,8 @@ import React from "react";
 import { Board } from "types/game/Board";
 import CardPlayed from "../deck/CardPlayed";
 import useSocket from "../../hooks/useSocket";
+import {useDrop} from "react-dnd";
+import {Card} from "../../types/cards/Card";
 
 interface Props {
   board: Board | undefined
@@ -20,12 +22,29 @@ export const BoardCards: React.FC<Props> = ({ board}) => {
     });
   };
 
+  const placeCard = (card: Card) => {
+    console.log('[Deck] EMIT ON \'play\' : ', card);
+    socket?.emit('play', card, (response: any): void => {
+      if (response.hasOwnProperty('error')) {
+        console.log('[Deck] ERROR from play : ', response.error);
+      }
+    });
+  }
+
+  const [, drop] = useDrop({
+    accept: 'CARD',
+    drop: (item: any) => {
+      placeCard(item.card);
+    },
+  });
+
   if (!board) return (
     <></>
   );
 
   return (
-    <div className="board">
+    <div className="board" ref={drop}>
+      <div className="board-place-cards"></div>
       <div className="board-all-slots">
         <div className="board-slot" onClick={() => { chooseSlot(1)} }>
           {board.slot1.cards.map((card, index) => (
