@@ -5,3 +5,4 @@ pouvoir relancer une partie -> lobby
 afficher la carte jouée
 afficher une carte face cachée ?
 afficher les autres joeurs avec des petits ronds aulieu d'une bande
+timeout pour jouer, avec sablier/compteur

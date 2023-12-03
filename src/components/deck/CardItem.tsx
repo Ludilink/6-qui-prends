@@ -12,33 +12,14 @@ export interface CardProps {
 }
 
 export const CardItem: React.FC<CardProps> = ({ card, isPlayable, isActive, onClick, index, onDragEnd }) => {
-  // const ref = useRef(null);
 
   const [{ isDragging }, drag] = useDrag({
     type: 'CARD',
-    item: { type: 'CARD', card },
+    item: { type: 'CARD', card, index },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
   });
-
-  // const [, drop] = useDrop({
-  //   accept: 'CARD',
-  //   hover: (item: any) => {
-  //     if (!ref.current) {
-  //       return;
-  //     }
-  //     const dragIndex = item.index;
-  //     const hoverIndex = index;
-  //     if (dragIndex === hoverIndex) {
-  //       return;
-  //     }
-  //     onDragEnd(dragIndex, hoverIndex);
-  //     item.index = hoverIndex;
-  //   },
-  // });
-
-  // drag(drop(ref));
 
   const layout = (content: React.JSX.Element): React.JSX.Element => {
     if (isPlayable) {

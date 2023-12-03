@@ -86,13 +86,22 @@
       word-break: break-all;
       text-overflow: ellipsis;
       overflow: hidden;
+      position: relative;
 
       &.offline {
         background-color: rgb(128, 125, 123);
       }
 
-      &.active {
-        border: 5px solid #e23516;
+      img {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      &.checkmark img {
+        opacity: 1;
       }
     }
   }

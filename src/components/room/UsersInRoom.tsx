@@ -9,20 +9,23 @@ interface Props {
 }
 
 const UsersInRoom: React.FC<Props> = ({ members, number, gameStatus }) => {
+  console.log("members : ", members)
+  console.log("gameStatus : ", gameStatus)
   return (
     <div className='user-list'>
       <div className='user-counter'>
         <div className='counter'>{number}</div>
       </div>
       <ul>
-        {members.length === 0 && gameStatus !== GameStatus.UNSTARTED ? members.map((member, index) => (
-          <li className={'' + (member.hasToPlay ? 'active' : '') + (member.status === 'Online' ? '' : 'offline')} key={index}>
+        {members.length !== 0 && gameStatus !== GameStatus.UNSTARTED ? members.map((member, index) => (
+          <li className={'' + (member.hasToPlay ? '' : 'checkmark ') + (member.status === 'Online' ? '' : 'offline')} key={index}>
             <div className='user-name'>
               {member.username}
             </div>
             <div className='user-points'>
               {member.bullsLost} pts
             </div>
+            <img src="/images/check.png" alt="Checkmark" />
           </li>
         )) : members.map((member, index) => (
           <li className={member.status === 'Online' ? '' : 'offline'} key={index}>
