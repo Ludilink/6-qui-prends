@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import useSocket from "../hooks/useSocket";
 import {UserRoom} from "../types/user/UserRoom";
@@ -12,6 +12,9 @@ import {GameStatus} from "../types/game/GameStatus";
 import Classement from "../components/win/Classement";
 import ErrorPage from "../components/global/ErrorPage";
 import useUser from "../hooks/useUser";
+import LoginModal from "../components/room/LoginModal";
+import {UserContext} from "../contexts/UserProvider";
+import CardPlayed from "../components/deck/CardPlayed";
 
 const Room: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -22,10 +25,12 @@ const Room: React.FC = () => {
   const [gameStatus, setGameStatus] = useState<GameStatus>(GameStatus.UNSTARTED);
   const [myUser, setMyUser] = useState<UserRoom | undefined>(undefined);
   const [cards, setCards] = useState<Card[]>([]);
+  const [card, setCard] = useState<Card | undefined>(undefined);
   const [board, setBoard] = useState<Board | undefined>(undefined);
   const [playerHasToPlay, setPlayerHasToPlay] = useState<UserRoom | undefined>(undefined);
   const [winners, setWinners] = useState<UserRoom[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [state] = useContext(UserContext);
 
   const startGame = () => {
     socket?.emitWithAck('startGame', id).then((response: any): void => {
@@ -68,9 +73,6 @@ const Room: React.FC = () => {
         if (response.hasOwnProperty('error')) {
           console.log('error from joinRoom : ', response.error);
           setErrorMessage(response.error);
-          setTimeout(() => {
-            navigate('/room/create');
-          }, 3000);
         } else {
           setGameStatus(response.gameStatus);
         }
@@ -104,6 +106,16 @@ const Room: React.FC = () => {
       socket?.disconnect();
     });
 
+    socket?.on('setCard', (card: Card) => {
+      console.log('[Room] card updated ! : ', card);
+      setCard(card);
+    });
+
+    socket?.on('flushCard', () => {
+      console.log('[Room] card flushed !');
+      setCard(undefined);
+    });
+
     socket?.on('playerHasToPlay', (user: UserRoom) => {
       console.log('[Room] playerHasToPlay updated ! : ', playerHasToPlay);
       setPlayerHasToPlay(user);
@@ -125,7 +137,13 @@ const Room: React.FC = () => {
       socket?.off('playerHasToPlay');
       socket?.off('winners');
     };
-  }, [id, navigate, playerHasToPlay, socket]);
+  }, [id, navigate, playerHasToPlay, socket, card]);
+
+  if (!state.user) {
+    return (
+      <LoginModal />
+    )
+  }
 
   if (socket === undefined || !socket.connected || errorMessage !== '') {
     return (
@@ -187,6 +205,15 @@ const Room: React.FC = () => {
         )}
 
         <BoardCards board={board} />
+
+        {card ? (
+          <div className="card-played">
+            <CardPlayed card={card} />
+          </div>
+        ) : (
+          <div className="card-played">
+          </div>
+        )}
 
         <Deck cards={cards} setCards={setCards} />
 

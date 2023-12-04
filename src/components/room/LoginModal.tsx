@@ -1,14 +1,26 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import InputText from "../global/InputText";
 import Button from "../homepage/Button";
 import useUser from "../../hooks/useUser";
+import {useNavigate} from "react-router-dom";
+import {UserContext} from "../../contexts/UserProvider";
 
 const LoginModal: React.FC = () => {
   const [username, setUsername] = useState<string>('');
   const { logIn } = useUser();
+  const [isModalOpen, setIsModalOpen] = useState(true);
+  const navigate = useNavigate();
+  const [state] = useContext(UserContext);
+
 
   const handleLoginClick = async (): Promise<void> => {
-    await logIn(username);
+    logIn(username).then(() => {
+      setIsModalOpen(false);
+    });
+  }
+
+  if (!isModalOpen || state.user !== undefined) {
+    return null;
   }
 
   return (

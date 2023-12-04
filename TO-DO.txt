@@ -1,8 +1,8 @@
-mettre check mark quand ils ont joué
 pouvoir rejoindre une room sans passer par le /create
-mettre une couronne sur l'host dans le lobby
 pouvoir relancer une partie -> lobby
 afficher la carte jouée
 afficher une carte face cachée ?
-afficher les autres joeurs avec des petits ronds aulieu d'une bande
 timeout pour jouer, avec sablier/compteur
+ajouter timeout pour jouer
+afficher les autres joeurs avec des petits ronds aulieu d'une bande
+faire le responsive
