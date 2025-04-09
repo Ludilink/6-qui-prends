@@ -117,7 +117,7 @@ const Room: React.FC = () => {
     });
 
     socket?.on('playerHasToPlay', (user: UserRoom) => {
-      console.log('[Room] playerHasToPlay updated ! : ', playerHasToPlay);
+      console.log('[Room] playerHasToPlay updated ! : ', user);
       setPlayerHasToPlay(user);
     });
 
@@ -194,9 +194,13 @@ const Room: React.FC = () => {
           </div>
         )}
 
-        {playerHasToPlay?.userId === myUser?.userId && (
+        {playerHasToPlay?.userId === myUser?.userId ? (
           <div className='player-to-play'>
             <p>Tu dois choisir le slot a remplacer</p>
+          </div>
+        ) : playerHasToPlay && (
+          <div className='player-to-play'>
+            <p>{playerHasToPlay?.username} doit choisir le slot a remplacer</p>
           </div>
         )}
 
